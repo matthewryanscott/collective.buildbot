@@ -261,6 +261,15 @@ class Project(object):
                                  repourl=self.repository, 
                                  branch=self.branch,
                                  alwaysUseLatest=self.always_use_latest)]
+        elif self.vcs == 'cvs':
+            cvsroot, cvsmodule = self.repository.split('!')
+            update_sequence = [s(steps.source.CVS, 
+                                 cvsroot=cvsroot,
+                                 cvsmodule=cvsmodule,
+                                 branch=self.branch,
+                                 mode=self.vcs_mode,
+                                 retry=self.vcs_retry,                                 
+                                 alwaysUseLatest=self.always_use_latest)]
         else:
             raise NotImplementedError('%s not supported yet' % self.vcs)
 

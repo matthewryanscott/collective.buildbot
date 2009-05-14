@@ -52,7 +52,8 @@ IRC bot:
     The irc host to connect to. ie: irc.freenode.net
 
 ``irc-channels``
-    A list of channels to join. #plone
+    A list of channels to join, ie: #plone
+    If channel has password write it after colon, ie. #private:passwd
 
 ``irc-nickname``
     The bot nickname. Defaults to ``buildbot``

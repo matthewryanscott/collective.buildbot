@@ -90,6 +90,9 @@ if config.has_option('buildbot', 'irc-host') and \
     
     irc_host = config.get('buildbot', 'irc-host')
     irc_channels = config.get('buildbot', 'irc-channels').split()
+    
+    # in channel name chars after ':' should be used as password to this channel
+    irc_channels = [chnl.replace(':', ' ') for chnl in irc_channels]
 
     if config.has_option('buildbot', 'irc-nickname'):
         irc_nickname = config.get('buildbot', 'irc-nickname')

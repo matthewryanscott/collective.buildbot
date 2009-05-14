@@ -30,7 +30,7 @@ The recipe supports the following options:
 
   The version control system used to obtain the source code for the
   project. Defaults to ``svn``. Other possible values are: ``hg``,
-  ``bzr`` and ``git``.
+  ``bzr``, ``git`` and ``cvs``.
 
 ``vcs-mode`` (optional)
 
@@ -46,8 +46,10 @@ The recipe supports the following options:
   correspond to the selected version control system. For Subversion
   this could be something like
   ``https://svn.plone.org/svn/collective/collective.buildbot/trunk``
-  or for Git something like
-  ``git@github.com:dokai/hexagonit-swfheader.git``.
+  for Git something like
+  ``git@github.com:dokai/hexagonit-swfheader.git``
+  and for CVS like
+  ``:pserver:anonymous@cvs.sourceforge.net:/cvsroot/buildbot!buildbot``.
 
   For Subversion, if the url root is found in HOME/.buildout/.httpauth,
   username and password will be used to perform checkouts and updates.

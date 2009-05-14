@@ -1,6 +1,14 @@
 0.3.4 SVN/Unreleased
 ====================
 
+  - Added support for CVS repositories in project recipe. Location of code in
+    CVS is described by `cvsroot` and `cvsmodule`. This two parameters are
+    taken by spliting on `!` sign on repository location.
+    [stxnext]
+    
+  - IRC bot can join password protected channels.
+    [stxnext]    
+
   - Refactor of all doctests that demonstrate recipes that subclass BaseRecipe  
     and rely upon it's write_config method. The implementation relies upon the 
     ConfigParser module which utilizes a dictionary data structure for storage 
