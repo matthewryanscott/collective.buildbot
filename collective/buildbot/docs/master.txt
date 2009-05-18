@@ -61,6 +61,18 @@ IRC bot:
 ``irc-password``
     The password used to identify the bot. Defaults to an empty string
 
+You can also use the following options if you need to run an ``PBListener``:
+
+``listener-port``
+    The port on which ``PBListener`` should listen for connections.
+    
+``listener-user``
+    Username used for connection authentication.
+
+``listener-passwd``
+    Password used for connection authentication.
+    
+    
 Example usage
 =============
 

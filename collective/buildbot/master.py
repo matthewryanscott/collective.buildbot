@@ -3,7 +3,7 @@ import os.path
 from buildbot.process import factory
 from buildbot.changes.pb import PBChangeSource
 from buildbot.buildslave import BuildSlave
-from buildbot.status import words
+from buildbot.status import words, client
 
 from collective.buildbot.overrides import WebStatus
 from collective.buildbot.project import Project
@@ -104,9 +104,22 @@ if config.has_option('buildbot', 'irc-host') and \
     irc = words.IRC(irc_host, irc_nickname, irc_channels, password=irc_password)
     c['status'].append(irc)
 
+# PBListener can be used for remote control
+listener_opts = {}
+if config.has_option('buildbot', 'listener-port'):
+    listener_opts['port'] = config.get('buildbot', 'listener-port')
+    
+    # user and passwd are optional so are send to constructor only
+    # when this options was added in config
+    if config.has_option('buildbot', 'listener-user'):
+        listener_opts['user'] = config.get('buildbot', 'listener-user')
+    if config.has_option('buildbot', 'listener-passwd'):
+        listener_opts['passwd'] = config.get('buildbot', 'listener-passwd')
+        
+    c['status'].append(client.PBListener(**listener_opts))
+
 ######################################################
 c['slavePortnum'] = port
 c['projectName'] = config.get('buildbot', 'project-name')
 c['projectURL'] = config.get('buildbot', 'project-url')
 c['buildbotURL'] = config.get('buildbot','url')
-

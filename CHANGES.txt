@@ -1,6 +1,9 @@
 0.3.4 SVN/Unreleased
 ====================
 
+  - Possible to configure ``PBListener``
+    [stxnext]
+
   - Added support for CVS repositories in project recipe. Location of code in
     CVS is described by `cvsroot` and `cvsmodule`. This two parameters are
     taken by spliting on `!` sign on repository location.
