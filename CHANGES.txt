@@ -1,4 +1,4 @@
-0.3.4 SVN/Unreleased
+0.3.4 (2009-05-21)
 ====================
 
   - Remove useless imports in docs.
