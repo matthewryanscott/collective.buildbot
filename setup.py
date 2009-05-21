@@ -50,8 +50,7 @@ entry_points = {"zc.buildout": [
                     ],
                 }
 
-# for now pyflakes is not available on pypi...
-tests_require=['zope.testing', 'zc.buildout'] #, 'pyflakes']
+tests_require=['zope.testing', 'zc.buildout', 'pyflakes']
 
 setup(name='collective.buildbot',
       version=version,
