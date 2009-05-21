@@ -49,7 +49,7 @@ Build the environnement::
   $ python bootstrap.py
   $ ./bin/buildout
 
-Then start deamons::
+Then start the daemons::
 
   $ ./bin/master start
   $ ./bin/yourhostname start
