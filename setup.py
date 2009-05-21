@@ -11,8 +11,7 @@ def read(*rnames):
 version = '0.3.4'
 
 long_description = (
-    read('README.txt')
-    + '\n' +
+    '\n.. contents::\n\n' +
     read('collective', 'buildbot', 'README.txt')
     + '\n' +
     read('collective', 'buildbot', 'docs', 'master.txt')
@@ -24,6 +23,8 @@ long_description = (
     read('collective', 'buildbot', 'docs', 'poller.txt')
     + '\n' +
     read('collective', 'buildbot', 'docs', 'fullexample.txt')
+    + '\n' +
+    read('README.txt')
     + '\n' +
     'Contributors\n'
     '************\n'
