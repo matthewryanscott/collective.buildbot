@@ -55,7 +55,7 @@ code.
     ... svnroot = https://svn.company.com/svn
     ... repositories = ${my.project:svnroot}/my.project/trunk
     ... email-notification-sender = buildbot@my.company.com
-    ... email-notification-recipient =
+    ... email-notification-recipients =
     ...     my.project@my.company.com
     ...     dev@my.company.com
     ... build-sequence =
@@ -67,7 +67,7 @@ code.
     ... svnroot = https://svn.othercompany.com/svn
     ... repositories = ${my.buildout:svnroot}/my.buildout/trunk
     ... email-notification-sender = buildbot@my.company.com
-    ... email-notification-recipient = dev@my.company.com
+    ... email-notification-recipients = dev@my.company.com
     ... test-sequence = bin/zope-instance test -v -vv
     ... pyflakes =
     ...     ../../../../bin/pyflakes src/collective.foo
@@ -79,7 +79,7 @@ code.
     ... vcs = git
     ... repositories = git://git.company.com/projects/another-package.git
     ... email-notification-sender = buildbot@my.company.com
-    ... email-notification-recipient = dev@my.company.com
+    ... email-notification-recipients = dev@my.company.com
     ... build-sequence =
     ... test-sequence = ../../bin/python setup.py test
     ... periodic-scheduler = 60

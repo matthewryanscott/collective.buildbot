@@ -88,7 +88,7 @@ The recipe supports the following options:
   An email address that will be used in the From: header for the
   notification messages.
 
-``email-notification-recipient`` (optional)
+``email-notification-recipients`` (optional)
 
   A newline separated sequence of email addresses the notification
   messages will be sent to.
@@ -196,7 +196,7 @@ and slaves, but here we will demonstrate only the use of the
     ... email-notification-sender = email@example.com
     ... slave-names = slave1
     ... mail-host = localhost
-    ... email-notification-recipient = 
+    ... email-notification-recipients = 
     ... 	email@example.com
     ... vcs = svn
     ... vcs-mode = clobber
@@ -222,9 +222,7 @@ Running the buildout gives us::
 
 As we can see, the recipe generated the project configuration files
 under the ``projects`` directory in the parts::
-    
-    >>> import os
-    >>> from ConfigParser import ConfigParser
+
     >>> config_path  = os.path.join('parts', 'projects', 'my.package.cfg')
     >>> config = ConfigParser()
     >>> _ = config.read(config_path)
@@ -234,7 +232,7 @@ under the ``projects`` directory in the parts::
     ...     ('email-notification-sender', 'email@example.com'),
     ...     ('slave-names', 'slave1'),
     ...     ('mail-host', 'localhost'),
-    ...     ('email-notification-recipient', '\nemail@example.com'),
+    ...     ('email-notification-recipients', '\nemail@example.com'),
     ...     ('vcs', 'svn'),
     ...     ('vcs-mode', 'clobber'),
     ...     ('always-use-latest', 'yes'),
@@ -262,7 +260,7 @@ If you have multiple similar projects you can define them within a
 single buildout section by providing multiple repository URLs. All the
 projects share the same options (except the repository URL). To
 further reduce repetition we've defined the base URL to our repository
-in the buildout section.
+in the buildout section::
 
     >>> write('buildout.cfg',
     ... """
@@ -293,10 +291,3 @@ configuration file for each project representing a single repository::
     Generated config '/sample-buildout/parts/projects/third.package.cfg'.
     Generated config '/sample-buildout/parts/projects/third.package_2.cfg'.
 
-
-The projects recipe
-*******************
-
-The ``collective.buildbot:projects`` recipe is deprecated and not
-supported anymore. Simply supply multiple repositories for the
-``collective.buildbot:project`` recipe to achieve the same result.

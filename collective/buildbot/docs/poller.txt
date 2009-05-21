@@ -80,8 +80,6 @@ We can define a poller to make our buildbot aware of commits::
 
 Poller generation. You can see here all the available options::
 
-    >>> import os
-    >>> from ConfigParser import ConfigParser
     >>> config_path  = os.path.join('parts', 'pollers', 'svnpoller.cfg')
     >>> config = ConfigParser()
     >>> _ = config.read(config_path)
@@ -123,10 +121,3 @@ You can also have the poller to observe multiple repositories.
     Generated config '/sample-buildout/parts/pollers/svnpoller_2.cfg'.
     <BLANKLINE>
 
-The pollers recipe
-*******************
-
-The ``collective.buildbot:pollers`` recipe is deprecated. To get the
-same functionality simply provide multiple repository URLs to the
-``collective.buildbot:poller`` recipe.
-  

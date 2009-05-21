@@ -8,6 +8,7 @@ from os.path import join
 import os
 import unittest
 import zc.buildout.testing
+from ConfigParser import ConfigParser
 
 from zope.testing import doctest, renormalizing
 import collective.buildbot.poller
@@ -71,12 +72,13 @@ def test_suite():
                   'fullexample.txt',
                   'svnauth.txt'
                  ]
-
+    globs = globals()
     suite = unittest.TestSuite([
             doctest.DocFileSuite(
                 join(DOCTEST_DIR, filename),
                 setUp=setUp,
                 tearDown=zc.buildout.testing.buildoutTearDown,
+                globs=globs,
                 optionflags=optionflags,
                 module_relative=False,
                 checker=renormalizing.RENormalizing([
