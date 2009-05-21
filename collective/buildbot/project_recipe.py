@@ -20,7 +20,7 @@ class Project(BaseRecipe):
 
         # default values in buildout section
         valid_args = ('mail-host', 'email-notification-sender',
-                      'email-notification-recipient', 'vcs-mode',
+                      'email-notification-recipients', 'vcs-mode',
                       'build-timeout', 'test-timeout', 'timeout')
         for key, value in self.buildout['buildout'].items():
             if key in valid_args:
@@ -38,7 +38,7 @@ class Project(BaseRecipe):
                      ('mail-host', 'localhost'),
                      ('repository', ''),
                      ('email-notification-sender', ''),
-                     ('email-notification-recipient', ''),
+                     ('email-notification-recipients', ''),
                      ('test-sequence', '\n'.join([join('bin', 'test --exit-with-status')])),
                      ):
             globs.setdefault(k, v)

@@ -31,10 +31,10 @@ class Project(object):
         >>> from collective.buildbot.project import Project
 
     We need to test args::
-        
+
         >>> config_opts = {'repository':'https://ingeniweb.svn.sourceforge.net/svnroot/ingeniweb/collective.buildbot/trunk',
         ...                'email_notification_sender':'gael@ingeniweb.com',
-        ...                'email_notification_recipient':'gael@ingeniweb.com',
+        ...                'email_notification_recipients':'gael@ingeniweb.com',
         ...                }
         >>> project = Project(**config_opts)
 
@@ -47,18 +47,18 @@ class Project(object):
         ['gael@ingeniweb.com']
 
     We can have multiple recipients::
-        
-        >>> config_opts['email_notification_recipient'] = 'gael@ingeniweb.com buildout@ingeniweb.com'
+
+        >>> config_opts['email_notification_recipients'] = 'gael@ingeniweb.com buildout@ingeniweb.com'
         >>> project = Project(**config_opts)
         >>> print project.email_notification_recipients
         ['gael@ingeniweb.com', 'buildout@ingeniweb.com']
-        
-        >>> config_opts['email_notification_recipient'] = '''gael@ingeniweb.com
-        ...                                                  buildout@ingeniweb.com'''
+
+        >>> config_opts['email_notification_recipients'] = '''gael@ingeniweb.com
+        ...                                                   buildout@ingeniweb.com'''
         >>> project = Project(**config_opts)
         >>> print project.email_notification_recipients
         ['gael@ingeniweb.com', 'buildout@ingeniweb.com']
-    
+
     Please note that .cfg files likely contain dashes (e.g. `-`) that are transformed into
     underscored (e.g. `_`).
     """
@@ -68,14 +68,14 @@ class Project(object):
 
         self.mail_host = options.get('mail_host', 'localhost')
         self.email_notification_sender = options.get('email_notification_sender','').strip()
-        self.email_notification_recipients = options.get('email_notification_recipient', '').split()
-        
+        self.email_notification_recipients = options.get('email_notification_recipients', '').split()
+
         self.slave_names =  options.get('slave_names', '').split()
         self.vcs = options.get('vcs', 'svn')
         self.vcs_mode = options.get('vcs_mode', 'update')
         self.vcs_retry = (10, 3)
         self.always_use_latest = (
-            options.get('always_use_latest', '').strip().lower() in 
+            options.get('always_use_latest', '').strip().lower() in
             ('yes', 'true', 'y') or False)
 
         d_timeout = options.get('timeout', '3600').strip()
@@ -95,7 +95,7 @@ class Project(object):
         self.options = options
         self.schedulers = []
         self.username, self.password = self._get_login(self.repository)
- 
+
     def _get_login(self, repository):
         """gets an option in .httpauth"""
         httpauth = join(os.path.expanduser('~'), '.buildout', '.httpauth')
@@ -106,7 +106,7 @@ class Project(object):
             if repository.startswith(url):
                 return username, password
         return None, None
-        
+
 
     def executable(self):
         """returns python bin"""
@@ -187,7 +187,7 @@ class Project(object):
         cron = self.options.get('cron_scheduler', None)
         if cron is not None:
             try:
-                minute, hour, dom, month, dow = [v=='*' and v or int(v) 
+                minute, hour, dom, month, dow = [v=='*' and v or int(v)
                                                  for v in cron.split()[:5]]
                 name = 'Cron scheduler for %s at %s' % (self.name, cron)
                 self.schedulers.append(Nightly(
@@ -213,7 +213,7 @@ class Project(object):
             except ValueError:
                 log.msg('Dependency loop detected')
                 raise
-        
+
         # Set up a general scheduler for any changes to dependencies
         dependencies = self.dependencies
         if dependencies:
@@ -235,14 +235,14 @@ class Project(object):
 
         if self.vcs == 'svn':
             if self.username is not None and self.password is not None:
-                update_sequence = [s(steps.source.SVN, mode=self.vcs_mode, 
+                update_sequence = [s(steps.source.SVN, mode=self.vcs_mode,
                                      retry=self.vcs_retry,
                                      svnurl=self.repository,
-                                     username=self.username, 
+                                     username=self.username,
                                      password=self.password,
                                      alwaysUseLatest=self.always_use_latest)]
             else:
-                update_sequence = [s(steps.source.SVN, mode=self.vcs_mode, 
+                update_sequence = [s(steps.source.SVN, mode=self.vcs_mode,
                                      retry=self.vcs_retry,
                                      svnurl=self.repository,
                                      alwaysUseLatest=self.always_use_latest)]
@@ -251,24 +251,24 @@ class Project(object):
                 klass = steps.source.Mercurial
             else:
                 klass = steps.source.Bzr
-            update_sequence = [s(klass, mode=self.vcs_mode, 
+            update_sequence = [s(klass, mode=self.vcs_mode,
                                  retry=self.vcs_retry,
                                  repourl=self.repository,
                                  alwaysUseLatest=self.always_use_latest)]
         elif self.vcs == 'git':
             update_sequence = [s(steps.source.Git, mode=self.vcs_mode,
                                  retry=self.vcs_retry,
-                                 repourl=self.repository, 
+                                 repourl=self.repository,
                                  branch=self.branch,
                                  alwaysUseLatest=self.always_use_latest)]
         elif self.vcs == 'cvs':
             cvsroot, cvsmodule = self.repository.split('!')
-            update_sequence = [s(steps.source.CVS, 
+            update_sequence = [s(steps.source.CVS,
                                  cvsroot=cvsroot,
                                  cvsmodule=cvsmodule,
                                  branch=self.branch,
                                  mode=self.vcs_mode,
-                                 retry=self.vcs_retry,                                 
+                                 retry=self.vcs_retry,
                                  alwaysUseLatest=self.always_use_latest)]
         else:
             raise NotImplementedError('%s not supported yet' % self.vcs)
@@ -279,14 +279,14 @@ class Project(object):
                 cmd[0] = self.executable()
             return cmd
 
-        build_sequence = [s(steps.shell.ShellCommand, 
+        build_sequence = [s(steps.shell.ShellCommand,
                             command=_cmd(cmd),
                             haltOnFailure=True,
                             timeout=self.build_timeout)
                           for cmd in self.build_sequence
                           if cmd.strip() != '']
 
-        test_sequence = [s(steps.shell.Test, 
+        test_sequence = [s(steps.shell.Test,
                            command=_cmd(cmd),
                            timeout=self.test_timeout)
                          for cmd in self.test_sequence
@@ -299,7 +299,7 @@ class Project(object):
                 if len(pyf.strip()) > 0:
                     pyflakes_sequence.append(s(PyFlakes, command=pyf.split()))
 
-        sequence = (update_sequence + build_sequence + 
+        sequence = (update_sequence + build_sequence +
                     test_sequence + pyflakes_sequence)
 
         for slave_name in self.slave_names:
