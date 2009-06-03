@@ -4,9 +4,8 @@ import time
 import types
 from twisted.python import log, runtime
 from buildbot.slave.commands import ShellCommandPP
-from buildbot import warnings
+from warnings import warn
 from twisted.internet import reactor
-from twisted.python import log
 
 import pkg_resources
 
@@ -274,8 +273,7 @@ def SVNStep__init__(self, svnurl=None, baseURL=None, defaultBranch=None,
         if not kwargs.has_key('workdir') and directory is not None:
             # deal with old configs            
             m = "Please use workdir=, not directory="
-            log.msg(m)
-            warnings.warn(m, DeprecationWarning)            
+            warn(m, DeprecationWarning)            
             kwargs['workdir'] = directory
 
         self.svnurl = svnurl
