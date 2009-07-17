@@ -15,9 +15,14 @@ class AboutCollectiveBuildBot(about.AboutBuildbot):
         """
         return data
 
+_marker = object()
+
 class WebStatus(baseweb.WebStatus):
 
-    def setupUsualPages(self):
-        baseweb.WebStatus.setupUsualPages(self)
+    def setupUsualPages(self, numbuilds = _marker):
+        if numbuilds == _marker:
+            baseweb.WebStatus.setupUsualPages(self)
+	else:
+            baseweb.WebStatus.setupUsualPages(self, numbuilds = numbuilds)
         self.putChild('about', AboutCollectiveBuildBot())
 
