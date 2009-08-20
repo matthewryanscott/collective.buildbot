@@ -277,10 +277,12 @@ in the buildout section::
     ...    ${buildout:svn}/other.package/tags/1.2.3
     ...    ${buildout:svn}/third.package/branches/foobar
     ...    ${buildout:svn}/third.package/branches/another
+    ...    ${buildout:svn}/third.package/branches/another
     ... """)
 
-When we run the buildout we can see that it generated a separate
-configuration file for each project representing a single repository::
+When we run the buildout we can see that it generated a separate configuration
+file for each project representing a single repository.  A branch name is used
+as extra identifier if detectable, otherwise an integer is added::
 
     >>> print system(buildout)
     Uninstalling other.package.
@@ -289,5 +291,6 @@ configuration file for each project representing a single repository::
     Generated config '/sample-buildout/parts/projects/my.package.cfg'.
     Generated config '/sample-buildout/parts/projects/other.package.cfg'.
     Generated config '/sample-buildout/parts/projects/third.package.cfg'.
+    Generated config '/sample-buildout/parts/projects/third.package_another.cfg'.
     Generated config '/sample-buildout/parts/projects/third.package_2.cfg'.
 

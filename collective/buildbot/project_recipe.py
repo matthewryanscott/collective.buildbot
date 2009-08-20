@@ -109,6 +109,23 @@ class Projects(BaseRecipe):
 
         return self.name
 
+    def extract_extra_identifier(self, url):
+        """Extract extra identifier (branch/tag name) from url
+
+        project, project_2, project_3 isn't that great if you're testing trunk
+        and a couple of branches.  If we extract the last part of the svn url
+        (so the tag or branch name), we can append that instead of an
+        integer.  So project, project_reinout-refactor, project_brainstorm.
+
+        """
+        vcs = self.options.get('vcs', 'svn')
+        parts = url.split('/')
+
+        if vcs == 'svn':
+            # Only for svn repositories.  Just return the last part which
+            # should be 'trunk' or the branch/tag name.
+            return parts[-1]
+
     def install(self):
         options = dict([(k,v) for k,v in self.options.items()])
         log = logging.getLogger(self.name)
@@ -139,10 +156,15 @@ class Projects(BaseRecipe):
                 # Distribute builds randomly so we don't build
                 # everything at once
                 minute = str(random.randint(1,59))
-                
+
                 # Make sure we use unique names for project config
-                # files
+                # files.  First try to append a branch/tag name, alternatively
+                # append an integer.
                 name = self.extract_name(repository)
+                if name in project_names:
+                    extra = self.extract_extra_identifier(repository)
+                    if extra:
+                        name = name + '_' + extra
                 idx = 2
                 while name in project_names:
                     name = '%s_%s' % (self.extract_name(repository), idx)

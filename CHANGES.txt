@@ -1,6 +1,12 @@
 0.3.6 SVN/Unreleased
 ====================
 
+  - When using svn and you test multiple branches of the same project, you now
+    get project_branch-a, project_branch-b instead of project_2, project_3.
+    Named after the branch/tag name.
+    [reinout]
+
+
 0.3.5 (2009-07-17)
 ====================
 
