@@ -1,7 +1,7 @@
 import os
 from os.path import join
 
-from collective.buildbot.scheduler import SVNScheduler
+from collective.buildbot.scheduler import SVNScheduler, FixedScheduler
 from buildbot.scheduler import Nightly, Periodic, Dependent, Scheduler
 from buildbot.process import factory
 from buildbot import steps
@@ -167,6 +167,24 @@ class Project(object):
             self.schedulers.append(
                     SVNScheduler('Scheduler for %s' % self.name, self.builders(),
                                  repository=self.repository))
+
+        # Set up the default scheduler, which can be helpful with VCSs not
+        # supported by the pollers (yet), e.g. Git
+        default = self.options.get('default_scheduler', None)
+        if default is not None:
+            try:
+                timer = int(default) or 600
+                if timer < 1:
+                    raise ValueError
+                name = 'Default scheduler for %s' % self.name
+                self.schedulers.append(
+                    FixedScheduler(name=name, branch=None,
+                              builderNames=self.builders(),
+                              treeStableTimer=timer))
+            except (ValueError, TypeError):
+                log.msg('Invalid definition for the default '
+                        'scheduler: %s' % default)
+                raise
 
         # Set up a simple periodic scheduler
         periodic = self.options.get('periodic_scheduler', None)

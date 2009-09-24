@@ -20,3 +20,16 @@ class SVNScheduler(Scheduler):
                 change.branch = None
                 Scheduler.addChange(self, change)
 
+
+class FixedScheduler(Scheduler):
+    """ fix Scheduler to (somewhat) respect `branch=None` """
+
+    def addChange(self, change):
+        """ the documentation states that setting `branch` to `None` should
+            make the scheduler only consider changes on the default branch;
+            as there seems to be neither support for determining that default
+            branch nor for checking for `None`, this gets fixed by always
+            adding the change if `branch` was set to `None` """
+        if self.branch is None and change.branch is not None:
+            change.branch = None
+            Scheduler.addChange(self, change)

@@ -113,6 +113,12 @@ The recipe supports the following options:
 
     bin/test
 
+``default-scheduler`` (optional)
+
+  Sets up the default scheduler that triggers a build after every change
+  using a grace period waiting for more changes.  The period can be specified
+  in seconds.
+
 ``periodic-scheduler`` (optional)
 
   Sets up a periodic scheduler that schedules a build every ``n``
