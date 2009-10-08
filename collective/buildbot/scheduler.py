@@ -21,6 +21,23 @@ class SVNScheduler(Scheduler):
                 Scheduler.addChange(self, change)
 
 
+class RepositoryScheduler(Scheduler):
+    """Extend Scheduler to look for only a particular repository."""
+
+    def __init__(self, name, builderNames, repository):
+        Scheduler.__init__(
+            self, name, None, 120, builderNames, fileIsImportant=None)
+        self.repository = repository
+
+    def addChange(self, change):
+        """Call Scheduler.addChange only if the branch name (eg. project name
+        in your case) is in the repository url"""
+        if 'repository' in change.properties:
+            if change.properties['repository'] == self.repository:
+                change.branch = None
+                Scheduler.addChange(self, change)
+
+
 class FixedScheduler(Scheduler):
     """ fix Scheduler to (somewhat) respect `branch=None` """
 

@@ -10,6 +10,11 @@
     Named after the branch/tag name.
     [reinout]
 
+  - When using git or hg for a repository type, and a change source specifies
+    a repository when notifying buildbot of a change, only schedule builds
+    for builders associated with that repository.
+    [gldnspud]
+
 
 0.3.5 (2009-07-17)
 ====================
@@ -32,16 +37,16 @@
     CVS is described by `cvsroot` and `cvsmodule`. This two parameters are
     taken by spliting on `!` sign on repository location.
     [stxnext]
-    
-  - IRC bot can join password protected channels.
-    [stxnext]    
 
-  - Refactor of all doctests that demonstrate recipes that subclass BaseRecipe  
-    and rely upon it's write_config method. The implementation relies upon the 
-    ConfigParser module which utilizes a dictionary data structure for storage 
-    of sections and options. This can never be assumed to be ordered across 
-    Python versions and we really shouldn't care upon order in our 
-    implementation. Tests now verify existence within intended section and 
+  - IRC bot can join password protected channels.
+    [stxnext]
+
+  - Refactor of all doctests that demonstrate recipes that subclass BaseRecipe
+    and rely upon it's write_config method. The implementation relies upon the
+    ConfigParser module which utilizes a dictionary data structure for storage
+    of sections and options. This can never be assumed to be ordered across
+    Python versions and we really shouldn't care upon order in our
+    implementation. Tests now verify existence within intended section and
     correct value, rather than placement.
     [andrewb]
 
@@ -49,7 +54,7 @@
     `email-notification-recipients` to the plural form).  When initializing
     collective.buildbot.project.Project we want to actually look for the plural
     version.  Additionally, we want our comment regarding notifications in
-    master.cfg_tmpl to suggest the correct value to be set. 
+    master.cfg_tmpl to suggest the correct value to be set.
     [andrewb]
 
   - Make timeout configurable, globally and independently for build
@@ -75,7 +80,7 @@
   - Fixed compatibility problem with buildbot 0.7.9
     [dokai]
 
-  - Fixed problem with the test suite initialization which resulted in all 
+  - Fixed problem with the test suite initialization which resulted in all
     the doctests not being run. Also fixed test regressions that had surfaced
     undetected because of the problem.
     [dokai]
@@ -103,7 +108,7 @@
     [hannosch]
 
   - Added a mechanism to have username/password for Subversion authentication
-    Which consists of a buildbot patch and a link to .httpauth on buildout 
+    Which consists of a buildbot patch and a link to .httpauth on buildout
     side
     [tarek]
 
@@ -130,10 +135,10 @@
 
   - Add splitter option to the poller recipe [gawel]
 
-  - Added support for running PyFlakes on projects [dokai] 
+  - Added support for running PyFlakes on projects [dokai]
 
   - Refactored project name extraction logic [dokai]
-    
+
     - Added Git support
 
     - Added support for defining multiple projects that result in

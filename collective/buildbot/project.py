@@ -1,7 +1,8 @@
 import os
 from os.path import join
 
-from collective.buildbot.scheduler import SVNScheduler, FixedScheduler
+from collective.buildbot.scheduler import (
+    SVNScheduler, FixedScheduler, RepositoryScheduler)
 from buildbot.scheduler import Nightly, Periodic, Dependent, Scheduler
 from buildbot.process import factory
 from buildbot import steps
@@ -165,8 +166,13 @@ class Project(object):
         # Always set a scheduler used by pollers
         if self.vcs == 'svn':
             self.schedulers.append(
-                    SVNScheduler('Scheduler for %s' % self.name, self.builders(),
-                                 repository=self.repository))
+                SVNScheduler('Scheduler for %s' % self.name, self.builders(),
+                             repository=self.repository))
+        elif self.vcs in ['git', 'hg']:
+            self.schedulers.append(
+                RepositoryScheduler(
+                    'Scheduler for %s' % self.name, self.builders(),
+                    repository=self.repository))
 
         # Set up the default scheduler, which can be helpful with VCSs not
         # supported by the pollers (yet), e.g. Git
