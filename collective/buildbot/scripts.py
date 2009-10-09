@@ -8,7 +8,8 @@ def main(location, config_file):
         os.environ['BUILDBOT_CONFIG'] = config_file
     if len(sys.argv) > 1 and sys.argv[1] in ('stop', 'start', 'restart'):
         # automatically include the path to buildbot.tac
-        cmd = sys.argv[-1]
-        sys.argv = [sys.argv[0], cmd, location]
+        cmd = sys.argv[1]
+        options = sys.argv[2:]
+        sys.argv = [sys.argv[0]] + options + [cmd, location]
         buildbot.scripts.runner.run()
 
